@@ -4,8 +4,8 @@
     "font_path": "assets/coolvetica.ttf",
     "verticy_size": 1,
     "scrolling_sensitivity": 3,
-    "rotation_speed": 1,
-    "display_info": true,
-    "display_verticies": true,
-    "display_edges": true
+    "rotation_speed": 0.5,
+    "show_info": true,
+    "render_verticies": true,
+    "render_edges": true
 }

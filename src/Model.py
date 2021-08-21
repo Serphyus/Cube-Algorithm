@@ -3,24 +3,18 @@ from math import sin, cos, radians
 
 
 class Model:
-    def __init__(self, shape: dict, color: tuple):
-        self.verticies = shape.get('verticies', [])
-        self.edges = shape.get('edges', [])
+    def __init__(self, verticies: list, edges: list, color: tuple):
+        self.verticies = verticies
+        self.edges = edges
         
-        self.rotation = [0, 0, 0]
         self.color = color
     
 
-    def rotateModel(self, rotation: tuple) -> None:
-        for index, value in enumerate(rotation):
-            self.rotation[index] = (self.rotation[index]+value) % 360
+    def get(self) -> None:
+        return [self.verticies, self.edges, self.color]
 
 
-    def revertRotation(self) -> None:
-        self.rotation = [0, 0, 0]
-
-
-    def getModel(self) -> list:
+    def rotate_model(self, rotation: list):
         """
         :param rotation: pitch, yaw, roll rotation values (γ, β, α)
 
@@ -37,9 +31,9 @@ class Model:
             [ -sinβ              cosβ sinγ                      cosβ cosγ         ]
 
         """
-        γ = radians(self.rotation[0])
-        β = radians(self.rotation[1])
-        α = radians(self.rotation[2])
+        γ = radians(rotation[0])
+        β = radians(rotation[1])
+        α = radians(rotation[2])
         
         matrix = [
             [cos(α) * cos(β),    cos(α) * sin(β) * sin(γ) - sin(α) * cos(γ),    cos(α) * sin(β) * cos(γ) + sin(α) * sin(γ)],
@@ -48,13 +42,11 @@ class Model:
         ]
 
 
-        _verticies = [v for v in self.verticies]
-        for index, (x, y, z) in enumerate(_verticies):
+        self.verticies = [v for v in self.verticies]
+        for index, (x, y, z) in enumerate(self.verticies):
             new_point = []
             for vector in matrix:
                 new_point.append(
                     ((x * vector[0]) + (y * vector[1]) + (z * vector[2]))
                 )
-            _verticies[index] = new_point
-
-        return [_verticies, self.edges]
+            self.verticies[index] = new_point
