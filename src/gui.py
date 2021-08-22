@@ -1,7 +1,6 @@
 import os
 import json
 import pygame
-from random import random
 from model import Model
 from types import SimpleNamespace
 
@@ -103,12 +102,9 @@ class Gui:
                 if keys[pygame.K_k]: rotation[1] -= self.config.rotation_speed
                 if keys[pygame.K_l]: rotation[2] -= self.config.rotation_speed
 
-            self.rotate_all(rotation)
+            if rotation != [0, 0, 0]:
+                self.rotate_all(rotation)
 
-                #if keys[pygame.K_r]:
-                #    for model in self.models:
-                #        model.revert_rotation()
-            
             self.render_models()
 
             if self.config.show_info:

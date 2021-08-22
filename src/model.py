@@ -1,12 +1,12 @@
+import numpy as np
 from math import sin, cos, radians
 
 
 
 class Model:
     def __init__(self, verticies: list, edges: list, color: tuple):
-        self.verticies = verticies
+        self.verticies = np.array(verticies)
         self.edges = edges
-        
         self.color = color
     
 
@@ -35,18 +35,12 @@ class Model:
         β = radians(rotation[1])
         α = radians(rotation[2])
         
-        matrix = [
+        matrix = np.array([
             [cos(α) * cos(β),    cos(α) * sin(β) * sin(γ) - sin(α) * cos(γ),    cos(α) * sin(β) * cos(γ) + sin(α) * sin(γ)],
             [sin(α) * cos(β),    sin(α) * sin(β) * sin(γ) + cos(α) * cos(γ),    sin(α) * sin(β) * cos(γ) - cos(α) * sin(γ)],
             [    -sin(β),                   cos(β) * sin(γ),                                   cos(β) * cos(γ)            ]
-        ]
+        ])
 
-
-        self.verticies = [v for v in self.verticies]
         for index, (x, y, z) in enumerate(self.verticies):
-            new_point = []
-            for vector in matrix:
-                new_point.append(
-                    ((x * vector[0]) + (y * vector[1]) + (z * vector[2]))
-                )
-            self.verticies[index] = new_point
+            vector = np.array([x, y, z])
+            self.verticies[index] = np.matmul(matrix, vector)
