@@ -1,5 +1,5 @@
 import os
-import Generators
+from generators import Generators
 from gui import Gui
 from model import Model
 
@@ -16,11 +16,10 @@ if __name__ == '__main__':
     except ValueError:
         exit(print('choice must be an int'))
     finally:
-        if 0 < choice < len(Generators.__all__):
+        if not 0 < choice < len(Generators.__all__)+1:
             exit(print('choice out of range'))
 
-
-    model = getattr(Generators, Generators.__all__[choice-1]).generate()
+        model = getattr(Generators, Generators.__all__[choice-1])()
 
     gui = Gui(path)
     gui.add_model(Model(**model))
