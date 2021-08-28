@@ -83,6 +83,8 @@ class Gui:
 
 
     def main_loop(self) -> None:
+        rotation = [0, 0, 0]
+        
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -93,8 +95,6 @@ class Gui:
 
                 keys = pygame.key.get_pressed()
                 
-                rotation = [0, 0, 0]
-                
                 if keys[pygame.K_u]: rotation[0] += self.config.rotation_speed
                 if keys[pygame.K_i]: rotation[1] += self.config.rotation_speed
                 if keys[pygame.K_o]: rotation[2] += self.config.rotation_speed
@@ -104,6 +104,7 @@ class Gui:
 
             if rotation != [0, 0, 0]:
                 self.rotate_all(rotation)
+                rotation = [0, 0, 0]
 
             self.render_models()
 
